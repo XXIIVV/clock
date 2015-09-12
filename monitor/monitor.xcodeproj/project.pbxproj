@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		574E8C5D1BA489B3007CD2D6 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 574E8C5C1BA489B3007CD2D6 /* icon.png */; };
 		57AD655C1BA47AE5005E545F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AD655B1BA47AE5005E545F /* AppDelegate.swift */; };
 		57AD655E1BA47AE5005E545F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57AD655D1BA47AE5005E545F /* Images.xcassets */; };
 		57AD65611BA47AE5005E545F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 57AD655F1BA47AE5005E545F /* MainMenu.xib */; };
@@ -24,6 +25,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		574E8C5C1BA489B3007CD2D6 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		57AD65561BA47AE5005E545F /* monitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = monitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57AD655A1BA47AE5005E545F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		57AD655B1BA47AE5005E545F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 		57AD65581BA47AE5005E545F /* monitor */ = {
 			isa = PBXGroup;
 			children = (
+				574E8C5C1BA489B3007CD2D6 /* icon.png */,
 				57AD655B1BA47AE5005E545F /* AppDelegate.swift */,
 				57AD655D1BA47AE5005E545F /* Images.xcassets */,
 				57AD655F1BA47AE5005E545F /* MainMenu.xib */,
@@ -189,6 +192,7 @@
 			files = (
 				57AD655E1BA47AE5005E545F /* Images.xcassets in Resources */,
 				57AD65611BA47AE5005E545F /* MainMenu.xib in Resources */,
+				574E8C5D1BA489B3007CD2D6 /* icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
