@@ -11,11 +11,13 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate
 {
-	@IBOutlet var statusMenu: NSMenu?
-	var statusBarItem : NSStatusItem?
+	@IBOutlet var statusMenu:NSMenu?
+	@IBOutlet weak var menu:NSMenu!
 	
-	@IBOutlet weak var menu: NSMenu!
-	@IBOutlet weak var window: NSWindow!
+	@IBOutlet weak var lastUpdateLabel: NSMenuItem!
+	
+	var statusBarItem:NSStatusItem?
+	var secondsSinceUpdate:Int = 0
 	
 	override func awakeFromNib() {
 		let statusBar = NSStatusBar.systemStatusBar()
@@ -26,7 +28,24 @@ class AppDelegate: NSObject, NSApplicationDelegate
 		let image = NSImage(named: "icon.png")
 		image?.size = NSSize(width: 18, height: 18)
 		statusBarItem?.image = image
-
+		
+		NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "timeStep", userInfo: nil, repeats: true)
+	}
+	
+	func timeStep()
+	{
+		secondsSinceUpdate += 1
+		
+		if secondsSinceUpdate % 10 == 0 {
+			secondsSinceUpdate = 0
+			update()
+		}
+		lastUpdateLabel.title = "Updated \(secondsSinceUpdate) sec ago"
+	}
+	
+	func update()
+	{
+		
 	}
 	
 	@IBAction func optionOscean(sender: AnyObject)

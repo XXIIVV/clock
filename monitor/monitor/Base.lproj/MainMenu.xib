@@ -14,6 +14,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="monitor" customModuleProvider="target">
             <connections>
+                <outlet property="lastUpdateLabel" destination="mJ7-ah-mwL" id="eLP-5Y-k8S"/>
                 <outlet property="menu" destination="AYu-sK-qS6" id="Ad1-jg-gWy"/>
                 <outlet property="statusMenu" destination="sA3-gT-7tp" id="g6o-sB-JEf"/>
             </connections>
