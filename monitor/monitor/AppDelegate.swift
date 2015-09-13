@@ -46,7 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate
 	{
 		secondsSinceUpdate += 1
 		
-		if secondsSinceUpdate % 10 == 0 {
+		if secondsSinceUpdate % 30 == 0 {
 			secondsSinceUpdate = 0
 			update()
 		}
