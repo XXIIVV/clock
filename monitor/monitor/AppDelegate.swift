@@ -19,15 +19,17 @@ class AppDelegate: NSObject, NSApplicationDelegate
 	var statusBarItem:NSStatusItem?
 	var secondsSinceUpdate:Int = 0
 	
-	override func awakeFromNib() {
+	override func awakeFromNib()
+	{
 		let statusBar = NSStatusBar.systemStatusBar()
 		statusBarItem = statusBar.statusItemWithLength(50)
 		statusBarItem!.menu = statusMenu
-		statusBarItem!.title = "2.9k"
 		
-		let image = NSImage(named: "icon.png")
+		let image = NSImage(named: "icon.passive.png")
 		image?.size = NSSize(width: 18, height: 18)
 		statusBarItem?.image = image
+		
+		update()
 		
 		NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "timeStep", userInfo: nil, repeats: true)
 	}
@@ -45,7 +47,32 @@ class AppDelegate: NSObject, NSApplicationDelegate
 	
 	func update()
 	{
+		statusBarItem!.title = "2.9k"
 		
+		let request = NSMutableURLRequest(URL: NSURL(string: "http://api.xxiivv.com/generic/monitor")!) // Here, kLogin contains the Login API.
+		
+		let session = NSURLSession.sharedSession()
+		
+		request.HTTPMethod = "POST"
+		
+		
+		let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+			let strData = NSString(data: data!, encoding: NSUTF8StringEncoding)
+			print(strData)
+//			var json2 = NSJSONSerialization.JSONObjectWithData(strData!.dataUsingEncoding(NSUTF8StringEncoding), options: .MutableLeaves, error:&err1 ) as NSDictionary
+			
+//			println("json2 :\(json2)")
+			
+//			if(err) {
+//				println(err!.localizedDescription)
+//			}
+//			else {
+//				var success = json2["success"] as? Int
+//				println("Success: \(success)")
+//			}
+		})
+		
+		task!.resume()
 	}
 	
 	@IBAction func optionOscean(sender: AnyObject)
