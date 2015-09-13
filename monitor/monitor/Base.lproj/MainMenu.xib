@@ -16,6 +16,12 @@
             <connections>
                 <outlet property="lastUpdateLabel" destination="mJ7-ah-mwL" id="eLP-5Y-k8S"/>
                 <outlet property="menu" destination="AYu-sK-qS6" id="Ad1-jg-gWy"/>
+                <outlet property="osceanLast" destination="y06-dC-gpE" id="7Nw-ON-TOi"/>
+                <outlet property="osceanTime" destination="vGS-ra-RGL" id="IPD-Aa-0fj"/>
+                <outlet property="osceanTotal" destination="wll-LF-6V5" id="fz5-To-LkY"/>
+                <outlet property="paradiseLast" destination="hlQ-eg-Da8" id="L0G-qz-nR6"/>
+                <outlet property="paradiseTime" destination="s4d-YI-Enf" id="4sV-M0-waN"/>
+                <outlet property="paradiseTotal" destination="nvN-dh-pcq" id="SvH-C3-yQS"/>
                 <outlet property="statusMenu" destination="sA3-gT-7tp" id="g6o-sB-JEf"/>
             </connections>
         </customObject>

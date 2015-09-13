@@ -16,6 +16,14 @@ class AppDelegate: NSObject, NSApplicationDelegate
 	
 	@IBOutlet weak var lastUpdateLabel: NSMenuItem!
 	
+	@IBOutlet weak var osceanTotal: NSMenuItem!
+	@IBOutlet weak var osceanLast: NSMenuItem!
+	@IBOutlet weak var osceanTime: NSMenuItem!
+	
+	@IBOutlet weak var paradiseTotal: NSMenuItem!
+	@IBOutlet weak var paradiseLast: NSMenuItem!
+	@IBOutlet weak var paradiseTime: NSMenuItem!
+	
 	var statusBarItem:NSStatusItem?
 	var secondsSinceUpdate:Int = 0
 	
@@ -46,55 +54,57 @@ class AppDelegate: NSObject, NSApplicationDelegate
 	}
 	
 	func update()
-	{
-		statusBarItem!.title = "2.9k"
-		
-		let request = NSMutableURLRequest(URL: NSURL(string: "http://api.xxiivv.com/generic/monitor")!) // Here, kLogin contains the Login API.
-		
+	{		
+		let request = NSMutableURLRequest(URL: NSURL(string: "http://api.xxiivv.com/generic/monitor")!)
 		let session = NSURLSession.sharedSession()
 		
-		request.HTTPMethod = "POST"
-		
-		
 		let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-			let strData = NSString(data: data!, encoding: NSUTF8StringEncoding)
-			print(strData)
-//			var json2 = NSJSONSerialization.JSONObjectWithData(strData!.dataUsingEncoding(NSUTF8StringEncoding), options: .MutableLeaves, error:&err1 ) as NSDictionary
+
+			let result:String = NSString(data: data!, encoding: NSUTF8StringEncoding)! as String
+			let lines = result.componentsSeparatedByString("\n")
 			
-//			println("json2 :\(json2)")
+			var content = ["root": "new"]
 			
-//			if(err) {
-//				println(err!.localizedDescription)
-//			}
-//			else {
-//				var success = json2["success"] as? Int
-//				println("Success: \(success)")
-//			}
+			for stringTest in lines
+			{
+				let keyValue = stringTest.componentsSeparatedByString(":")
+				if keyValue.count < 2 { continue }
+				let key:String = "\(keyValue[0])"
+				let val:String = "\(keyValue[1])"
+				content[key] = val
+			}
+			
+			let osceanTime = Int(NSDate().timeIntervalSince1970) - Int(content["oscean-time"]!)!
+			var osceanTimeString = "\(osceanTime) seconds ago"
+			if osceanTime > 60 { osceanTimeString = "\(osceanTime/60) minutes ago" }
+			
+			self.osceanTotal.title = "Total Visitors, " + content["oscean-total"]! + " today"
+			self.osceanLast.title = "Last page, \"" + content["oscean-last"]! + "\""
+			self.osceanTime.title = "Last visit, " + osceanTimeString
+			
+			let paradiseTime = Int(NSDate().timeIntervalSince1970) - Int(content["paradise-time"]!)!
+			var paradiseTimeString = "\(paradiseTime) seconds ago"
+			if paradiseTime > 60 { paradiseTimeString = "\(paradiseTime/60) minutes ago" }
+			
+			self.paradiseTotal.title = "Total Visitors, " + content["paradise-total"]! + " today"
+			self.paradiseLast.title = "Last creation, \"" + content["paradise-last"]! + "\""
+			self.paradiseTime.title = "Last visit, " + paradiseTimeString
+			
+			self.statusBarItem!.title = content["total"]!
 		})
-		
 		task!.resume()
 	}
-	
+
 	@IBAction func optionOscean(sender: AnyObject)
 	{
-		
-	}
-	
-	@IBAction func optionQuit(sender: AnyObject)
-	{
-		
+		NSWorkspace.sharedWorkspace().openURL(NSURL(string: "http://wiki.xxiivv.com")!)
 	}
 	
 	@IBAction func optionParadise(sender: AnyObject)
 	{
-		
+		NSWorkspace.sharedWorkspace().openURL(NSURL(string: "http://wiki.xxiivv.com")!)
 	}
 	
-	@IBAction func optionOsceanLast(sender: AnyObject)
-	{
-		
-	}
-
 	func applicationDidFinishLaunching(aNotification: NSNotification)
 	{
 		// Insert code here to initialize your application
