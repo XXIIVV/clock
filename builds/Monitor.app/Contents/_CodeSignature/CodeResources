@@ -4,15 +4,23 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>Resources/AppIcon.icns</key>
+		<data>
+		vlkF/9cdGxMISxoEmMNpK5K+fi8=
+		</data>
 		<key>Resources/Base.lproj/MainMenu.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			pKeIuW74J9cjpdktoslb5sh3TI8=
+			i6BQaOMAM+km+RYgfndVhgjzR1Y=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
+		<key>Resources/icon.error.png</key>
+		<data>
+		OsK4N3lQBCNFsMfteBQwCbLEgJQ=
+		</data>
 		<key>Resources/icon.passive.png</key>
 		<data>
 		GlKWDVMoUIR8VsnN5zxKK0AA+Mc=
@@ -24,101 +32,100 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			DZu9uoEHNIhBg/lhO+nio2audnk=
+			RC6D7JRGzif86+WPN4j2wkqdeZw=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"0d9bbdba810734884183f9613be9e2a366ae7679"</string>
+			<string>cdhash H"442e83ec9446ce27fcebe58f3788f6c24a9d799c"</string>
 		</dict>
 		<key>Frameworks/libswiftCore.dylib</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			lgL07gQF5wEcWx5rEUmAqd2kyx0=
+			sfjBZ61HzUQrUlHBQggwZ+ADHXM=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"9602f4ee0405e7011c5b1e6b114980a9dda4cb1d"</string>
+			<string>cdhash H"b1f8c167ad47cd442b5251c142083067e0031d73"</string>
 		</dict>
 		<key>Frameworks/libswiftCoreData.dylib</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			XZYHAUfiFRYDcYVqS7K/EeCs9mA=
+			Y8hvzQgylUHwIslTLXbBNaws+Hs=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"5d96070147e215160371856a4bb2bf11e0acf660"</string>
+			<string>cdhash H"63c86fcd08329541f022c9532d76c135ac2cf87b"</string>
 		</dict>
 		<key>Frameworks/libswiftCoreGraphics.dylib</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			LVw7ah641O3eupGs3y4D29bC/Qo=
+			vQsft9ojKF19kuAlhbfyd9YZhm4=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"2d5c3b6a1eb8d4eddeba91acdf2e03dbd6c2fd0a"</string>
+			<string>cdhash H"bd0b1fb7da23285d7d92e02585b7f277d619866e"</string>
 		</dict>
 		<key>Frameworks/libswiftCoreImage.dylib</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			BGc40YTXBVR81O6pXwGmmjbt4uc=
+			zh/ilAytcA6jN6wFi0w0hFDixcs=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"046738d184d705547cd4eea95f01a69a36ede2e7"</string>
+			<string>cdhash H"ce1fe2940cad700ea337ac058b4c348450e2c5cb"</string>
 		</dict>
 		<key>Frameworks/libswiftDarwin.dylib</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			PWa8DzzIgwnDezkrAll6MtDkuWI=
+			Iod4FHaG1g/YuPdjrF1YDzQ62Oo=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"3d66bc0f3cc88309c37b392b02597a32d0e4b962"</string>
+			<string>cdhash H"228778147686d60fd8b8f763ac5d580f343ad8ea"</string>
 		</dict>
 		<key>Frameworks/libswiftDispatch.dylib</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			IzqiTnykJMFGJbnDsNZefU/cUTs=
+			sO/06kcXpJYv9zJv3LJVd4f5DXU=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"233aa24e7ca424c14625b9c3b0d65e7d4fdc513b"</string>
+			<string>cdhash H"b0eff4ea4717a4962ff7326fdcb2557787f90d75"</string>
 		</dict>
 		<key>Frameworks/libswiftFoundation.dylib</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			CJXEU3uTHnWFFmwb7IfpJduICCA=
+			1RVBuQcPgBmLdTnhv54cPHcTNWA=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"0895c4537b931e7585166c1bec87e925db880820"</string>
+			<string>cdhash H"d51541b9070f80198b7539e1bf9e1c3c77133560"</string>
 		</dict>
 		<key>Frameworks/libswiftObjectiveC.dylib</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
-			bnVDec8vmnUfQA9wKEbVs5Vg4is=
+			3Q0ziwS3HsJvn/uYnRal3UAX4sI=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"6e754379cf2f9a751f400f702846d5b39560e22b"</string>
+			<string>cdhash H"dd0d338b04b71ec26f9ffb989d16a5dd4017e2c2"</string>
 		</dict>
-		<key>Frameworks/libswiftSecurity.dylib</key>
-		<dict>
-			<key>cdhash</key>
-			<data>
-			56V0+Piiox/ZlEMq7geeesuwbB8=
-			</data>
-			<key>requirement</key>
-			<string>cdhash H"e7a574f8f8a2a31fd994432aee079e7acbb06c1f"</string>
-		</dict>
+		<key>Resources/AppIcon.icns</key>
+		<data>
+		vlkF/9cdGxMISxoEmMNpK5K+fi8=
+		</data>
 		<key>Resources/Base.lproj/MainMenu.nib</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			pKeIuW74J9cjpdktoslb5sh3TI8=
+			i6BQaOMAM+km+RYgfndVhgjzR1Y=
 			</data>
 			<key>optional</key>
 			<true/>
 		</dict>
+		<key>Resources/icon.error.png</key>
+		<data>
+		OsK4N3lQBCNFsMfteBQwCbLEgJQ=
+		</data>
 		<key>Resources/icon.passive.png</key>
 		<data>
 		GlKWDVMoUIR8VsnN5zxKK0AA+Mc=

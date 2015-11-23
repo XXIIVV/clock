@@ -27,15 +27,15 @@ class AppDelegate: NSObject, NSApplicationDelegate
 	var statusBarItem:NSStatusItem?
 	var secondsSinceUpdate:Int = 0
 	
+	var image:NSImage!
+	
 	override func awakeFromNib()
 	{
 		let statusBar = NSStatusBar.systemStatusBar()
 		statusBarItem = statusBar.statusItemWithLength(50)
 		statusBarItem!.menu = statusMenu
 		
-		let image = NSImage(named: "icon.passive.png")
-		image?.size = NSSize(width: 18, height: 18)
-		statusBarItem?.image = image
+		set_image_passive()
 		
 		update()
 		
@@ -47,7 +47,6 @@ class AppDelegate: NSObject, NSApplicationDelegate
 		secondsSinceUpdate += 1
 		
 		if secondsSinceUpdate % 30 == 0 {
-			secondsSinceUpdate = 0
 			update()
 		}
 		lastUpdateLabel.title = "Updated \(secondsSinceUpdate) sec ago"
@@ -59,7 +58,9 @@ class AppDelegate: NSObject, NSApplicationDelegate
 		let session = NSURLSession.sharedSession()
 		
 		let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-
+			
+			if data == nil { self.statusBarItem!.title = "000" ; self.set_image_error() ; return }
+			
 			let result:String = NSString(data: data!, encoding: NSUTF8StringEncoding)! as String
 			let lines = result.componentsSeparatedByString("\n")
 			
@@ -91,8 +92,25 @@ class AppDelegate: NSObject, NSApplicationDelegate
 			self.paradiseTime.title = "Last visit, " + paradiseTimeString
 			
 			self.statusBarItem!.title = content["total"]!
+			self.set_image_passive()
+			self.secondsSinceUpdate = 0
+			self.lastUpdateLabel.title = "Updated \(self.secondsSinceUpdate) sec ago"
 		})
-		task!.resume()
+		task.resume()
+	}
+	
+	func set_image_passive()
+	{
+		image = NSImage(named: "icon.passive.png")
+		image?.size = NSSize(width: 18, height: 18)
+		statusBarItem?.image = image
+	}
+	
+	func set_image_error()
+	{
+		image = NSImage(named: "icon.error.png")
+		image?.size = NSSize(width: 19, height: 19)
+		statusBarItem?.image = image
 	}
 
 	@IBAction func optionOscean(sender: AnyObject)
@@ -104,15 +122,10 @@ class AppDelegate: NSObject, NSApplicationDelegate
 	{
 		NSWorkspace.sharedWorkspace().openURL(NSURL(string: "http://wiki.xxiivv.com")!)
 	}
-	
-	func applicationDidFinishLaunching(aNotification: NSNotification)
-	{
-		// Insert code here to initialize your application
-	}
 
-	func applicationWillTerminate(aNotification: NSNotification)
+	@IBAction func optionUpdate(sender: AnyObject)
 	{
-		// Insert code here to tear down your application
+		update()
 	}
 }
 
