@@ -2,7 +2,7 @@
 
 Clock is a small widget displaying [decimal time](http://wiki.xxiivv.com/desamber).
 
-<img src='https://raw.githubusercontent.com/hundredrabbits/Marabu/master/PREVIEW.png'/>
+<img src='https://raw.githubusercontent.com/hundredrabbits/Clock/master/PREVIEW.png'/>
 
 ## License
 
