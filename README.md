@@ -10,7 +10,7 @@ Each break **lasts 1 beat**, or 1000 pulses, and is equivalent to 86.4 seconds(a
 
 ## Preview
 
-<img src='https://raw.githubusercontent.com/hundredrabbits/Clock/master/PREVIEW.png' style='max-width: 50%;border-radius: 4px;'/>
+<img src='https://raw.githubusercontent.com/hundredrabbits/Clock/master/PREVIEW.jpg'/>
 
 ## Build
 
