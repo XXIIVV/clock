@@ -23,6 +23,12 @@ npm install
 npm start
 ```
 
+## Build
+
+```
+npm run build
+```
+
 ## Notes
 
 During render, the track time is displayed in the before-last row of the Editor in the `0252` format, or 2:52.
