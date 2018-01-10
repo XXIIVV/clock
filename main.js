@@ -1,6 +1,6 @@
 const {app, Menu, Tray} = require('electron')
 const nativeImage = require('electron').nativeImage
-let image = nativeImage.createFromPath('./icon.png')
+let image = nativeImage.createFromPath(app.getAppPath()+'/icon.png')
 let clock = require('./clock.js')
 
 app.on('ready', () => {
