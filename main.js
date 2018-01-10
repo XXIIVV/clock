@@ -1,53 +1,42 @@
 const {app, Menu, Tray} = require('electron')
 const nativeImage = require('electron').nativeImage
-let image = nativeImage.createEmpty()
-
-function Clock()
-{
-  this.radius = 90;
-  this.circ = this.radius * 2 * Math.PI;
-  this.center = 105;
-
-  this.time = function()
-  {
-    var d = new Date(), e = new Date(d);
-    var msSinceMidnight = e - d.setHours(0,0,0,0);
-    var val = (msSinceMidnight/864) * 10;
-    return parseInt(val);
-  }
-
-  this.format = function()
-  {
-    var t        = this.time();
-    var t_s      = new String(t);
-    return t_s.substr(0,3)+":"+t_s.substr(3,3);
-  }
-}
-
-let clock = new Clock()
+let image = nativeImage.createFromPath('./icon.png')
+let clock = require('./clock.js')
 
 app.on('ready', () => {
+
+  clock.add_reminder("stand",30);
+  clock.add_reminder("drink",20);
+  clock.add_reminder("rest",10);
+
+  image = image.resize({width:24,height:24})
 
   function update(pulse)
   {
     var time = clock.format();
     var beat = time.substr(0,3);
-    if(menu && menu.items[1].checked){
-      tray.setTitle(time);
+    var event = clock.has_reminder();
+
+    if(event || menu && menu.items[1].checked){
+      tray.setTitle(`${time}${event ? "("+event+")" : ""}`);
     }
     else if(prev_beat != beat || pulse == 1){
       tray.setTitle(beat);
     }
+    
     prev_beat = beat;
   }
 
   var prev_beat = null;
+
   var tray = new Tray(image)
+
   var menu = Menu.buildFromTemplate([
     {label: '000', type: 'radio', checked: true, click:function(){ update(1) } },
     {label: '000:000', type: 'radio', click:function(){ update(2) } },
     {label: 'Quit', click:function(){ app.quit(); } }
   ])
+
   tray.setContextMenu(menu)
 
   tray.setTitle("---");
