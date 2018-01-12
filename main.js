@@ -5,6 +5,8 @@ let clock = require('./clock.js')
 
 app.on('ready', () => {
 
+  app.dock.hide();
+
   clock.add_reminder("stand",30);
   clock.add_reminder("drink",20);
   clock.add_reminder("rest",10);
@@ -41,7 +43,7 @@ app.on('ready', () => {
 
   tray.setTitle("---");
 
-  setInterval(update,86.40)
+  setInterval(update,86.40);
 
   update(1);
 })
