@@ -11,7 +11,43 @@ app.on('ready', () => {
   clock.add_reminder("drink",20);
   clock.add_reminder("rest",10);
 
+  var pomodoro = null;
+  var show_pulse = false;
+
   image = image.resize({width:24,height:24})
+
+  function toggle_pomodoro(beats = 24.885)
+  {
+    var minutes = beats * (1/86.4) * 100;
+
+    console.log(minutes)
+
+    // Start
+    if(!pomodoro){
+      pomodoro = new Date(new Date().getTime() + (minutes*60000));
+    }
+    // Stop
+    else{
+      pomodoro = null;
+    }
+    update_menu();
+  }
+
+  function toggle_format()
+  {
+    show_pulse = show_pulse ? false : true;
+    update_menu();
+  }
+
+  function update_menu()
+  {
+    var menu = Menu.buildFromTemplate([
+      {label: '000:000', type: 'checkbox', checked: show_pulse, click:() => { toggle_format(); } },
+      {label: pomodoro ? 'Stop Pomodoro' : 'Start Pomodoro', click:() => { toggle_pomodoro(); } },
+      {label: 'Quit', click:() => { app.quit() }}
+    ])
+    tray.setContextMenu(menu)
+  }
 
   function update(pulse)
   {
@@ -19,10 +55,13 @@ app.on('ready', () => {
     var beat = time.substr(0,3);
     var event = clock.has_reminder();
 
-    if(event || menu && menu.items[1].checked){
+    if(pomodoro){
+      tray.setTitle(`-${clock.time_left(pomodoro)}`);
+    }
+    else if(event || show_pulse){
       tray.setTitle(`${time}${event ? "("+event+")" : ""}`);
     }
-    else if(prev_beat != beat || pulse == 1){
+    else if(prev_beat != beat || !pulse){
       tray.setTitle(beat);
     }
     
@@ -34,14 +73,14 @@ app.on('ready', () => {
   var tray = new Tray(image)
 
   var menu = Menu.buildFromTemplate([
-    {label: '000', type: 'radio', checked: true, click:function(){ update(1) } },
-    {label: '000:000', type: 'radio', click:function(){ update(2) } },
-    {label: 'Quit', click:function(){ app.quit(); } }
+    {label: 'Quit', click:() => { app.quit() }}
   ])
-
   tray.setContextMenu(menu)
 
+  update_menu();
+
   tray.setTitle("---");
+  update_menu();
 
   setInterval(update,86.40);
 

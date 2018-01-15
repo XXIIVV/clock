@@ -20,6 +20,11 @@ function Clock()
     return t_s.substr(0,3)+":"+t_s.substr(3,3);
   }
 
+  this.time_left = function(target)
+  {
+    return ((target - new Date())/86.40/1000).toFixed(3).toString().replace(".",":");
+  }
+
   this.content = function()
   {
     var t        = this.time();
