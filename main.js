@@ -1,75 +1,56 @@
 const {app, Menu, Tray} = require('electron')
 const nativeImage = require('electron').nativeImage
-let image = nativeImage.createFromPath(app.getAppPath()+'/icon.png')
-let clock = require('./clock.js')
+let image = nativeImage.createFromPath(app.getAppPath()+'/icon.png') 
+    image = image.resize({width:24,height:24})
+
+let clock     = require('./sources/clock')
+let pomodoro  = require('./sources/pomodoro')
+let reminder  = require('./sources/reminder')
+let calendar  = require('./sources/calendar')
 
 app.on('ready', () => {
 
-  app.dock.hide();
+  app.dock.hide()
 
-  clock.reminder.add("stand",45);
-  clock.reminder.add("drink",30);
-  clock.reminder.add("rest",15);
+  this.tray = new Tray(image)
 
-  var show_pulse = false;
+  reminder.add("stand",45)
+  reminder.add("drink",30)
+  reminder.add("rest",15)
 
-  image = image.resize({width:24,height:24})
-
-  function toggle_format()
+  this.update_menu = function()
   {
-    show_pulse = show_pulse ? false : true;
-    update_menu();
+    var menu = Menu.buildFromTemplate([clock.menu(this),pomodoro.menu(this),calendar.menu(this),{label: 'Quit', click:() => { app.quit() }}])
+    this.tray.setContextMenu(menu)
   }
 
-  function update_menu()
-  {
-    var menu = Menu.buildFromTemplate([
-      {label: '000:000', type: 'checkbox', checked: show_pulse, click:() => { toggle_format(); } },
-      {label: clock.pomodoro.target ? 'Stop Pomodoro' : 'Start Pomodoro', click:() => { clock.pomodoro.toggle(); update_menu(); } },
-      {label: 'Quit', click:() => { app.quit() }}
-    ])
-    tray.setContextMenu(menu)
-  }
+  var prev_beat = null
 
-  function update(pulse)
+  this.update_title = function(pulse)
   {
-    var time = clock.format();
-    var beat = time.substr(0,3);
-    var event = clock.reminder.any();
+    var time = clock.format()
+    var event = reminder.any()
 
     // Kill timer
-    if(clock.pomodoro.target && clock.pomodoro.offset() < 0){
-      update_menu();
+    if(pomodoro.is_expired()){
+      pomodoro.stop();
     }
 
-    if(clock.pomodoro.target){
-      tray.setTitle(`-${clock.pomodoro}`);
+    if(pomodoro.target){
+      this.tray.setTitle(`-${pomodoro}`)
     }
-    else if(event || show_pulse){
-      tray.setTitle(`${time}${event ? "("+event+")" : ""}`);
+    else if(event || clock.show_pulse){
+      this.tray.setTitle(`${time.beat}:${time.pulse}${event ? "("+event+")" : ""}`)
     }
-    else if(prev_beat != beat || !pulse){
-      tray.setTitle(beat);
+    else if(prev_beat != time.beat || !pulse){
+      this.tray.setTitle(time.beat)
     }
     
-    prev_beat = beat;
+    prev_beat = time.beat
   }
 
-  var prev_beat = null;
+  setInterval(() => { this.update_title() },86.40)
 
-  var tray = new Tray(image)
-
-  var menu = Menu.buildFromTemplate([
-    {label: 'Quit', click:() => { app.quit() }}
-  ])
-  tray.setContextMenu(menu)
-
-  update_menu();
-
-  tray.setTitle("---");
-  update_menu();
-
-  setInterval(update,86.40);
-
-  update(1);
+  this.update_title(1)
+  this.update_menu()
 })

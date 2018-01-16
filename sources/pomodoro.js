@@ -2,6 +2,16 @@ function Pomodoro()
 {
   this.target = null;
 
+  this.toggle_target = function()
+  {
+    if(this.target){
+      this.stop();
+    }
+    else{
+      this.start();
+    }
+  }
+
   this.start = function(beats = 30)
   {
     var minutes = (beats * 86.4)/100; 
@@ -14,16 +24,6 @@ function Pomodoro()
     this.target = null;
   }
 
-  this.toggle = function()
-  {
-    if(this.target){
-      this.stop();
-    }
-    else{
-      this.start();
-    }
-  }
-
   this.offset = function()
   {
     if(!this.target){ return null; }
@@ -34,9 +34,19 @@ function Pomodoro()
     return beats;
   }
 
+  this.is_expired = function()
+  {
+    return this.target && this.offset() < 0 ? true : false
+  }
+
   this.toString = function()
   {
     return this.offset().toFixed(3).toString().replace(".",":")
+  }
+
+  this.menu = function(app)
+  {
+    return {label: this.target ? 'Stop Pomodoro' : 'Start Pomodoro', click:() => { this.toggle_target(); app.update_menu(); } }
   }
 }
 
