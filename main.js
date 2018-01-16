@@ -7,26 +7,22 @@ app.on('ready', () => {
 
   app.dock.hide();
 
-  clock.add_reminder("stand",30);
-  clock.add_reminder("drink",20);
-  clock.add_reminder("rest",10);
+  clock.add_reminder("stand",45);
+  clock.add_reminder("drink",30);
+  clock.add_reminder("rest",15);
 
   var pomodoro = null;
   var show_pulse = false;
 
   image = image.resize({width:24,height:24})
 
-  function toggle_pomodoro(beats = 24.885)
+  function toggle_pomodoro(beats = 30)
   {
-    var minutes = beats * (1/86.4) * 100;
-
-    console.log(minutes)
-
-    // Start
+    var minutes = (beats * 86.4)/100; 
+    console.log(`${beats} beats - ${minutes} minutes`)
     if(!pomodoro){
       pomodoro = new Date(new Date().getTime() + (minutes*60000));
     }
-    // Stop
     else{
       pomodoro = null;
     }

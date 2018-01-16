@@ -22,7 +22,10 @@ function Clock()
 
   this.time_left = function(target)
   {
-    return ((target - new Date())/86.40/1000).toFixed(3).toString().replace(".",":");
+    var offset_sec = target - new Date();
+    var minutes = offset_sec/60000;
+    var beats = (minutes * (1/86.4))*100;
+    return (beats).toFixed(3).toString().replace(".",":");
   }
 
   this.content = function()

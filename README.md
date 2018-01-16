@@ -8,6 +8,15 @@ The clock has **6 digits**, where their overall value is a ratio over the comple
 
 Each break **lasts 1 beat**, or 1000 pulses, and is equivalent to 86.4 seconds(about 1m44s).
 
+```
+1 beat = 86.4 seconds
+1 second = 1.157 beats
+```
+
+## Pomodoro
+
+There is a `Start Pomodoro` timer to do a singular focused work lasting 30 beats, or 25.92 minutes.
+
 ## Preview
 
 <img src='https://raw.githubusercontent.com/hundredrabbits/Clock/master/PREVIEW.jpg'/>
