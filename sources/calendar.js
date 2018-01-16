@@ -1,31 +1,27 @@
 function Calendar()
 {
-  this.calendar = function()
+  this.months_in_year = 26;
+  this.days_in_month = 14;
+  this.date = new Date(); 
+
+  var start = new Date(this.date.getFullYear(), 0, 0);
+  var diff = (this.date - start) + ((start.getTimezoneOffset() - this.date.getTimezoneOffset()) * 60 * 1000);
+
+  this.doty = Math.floor(diff/86400000); // day of the year
+  this.month = Math.floor(this.doty / this.months_in_year);
+  this.day = this.doty % this.days_in_month;
+
+  this.toString = function()
   {
-    var now = new Date();
-    var year = now.getFullYear();
-    var start = new Date(year, 0, 0);
-    var diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
-
-    var oneDay = 1000 * 60 * 60 * 24;
-    var day = Math.floor(diff / oneDay);
-    var total_days = (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)) ? 366 : 365;
-    var progress = (day/total_days)*100000;
-    var date = pad(parseInt(progress),6)
-
-    return {month:date.substr(0,3),day:date.substr(3,3)};
+    var d = this.day;
+    var m = String.fromCharCode(97 + this.month).toUpperCase();
+    var y = this.date.getFullYear().toString().substr(2,2);
+    return `${y}${m}${d}`;
   }
 
-  this.menu = function(app)
+  this.menu = function()
   {
-    var cal = this.calendar();
-    return {label: `${cal.month}.${cal.day}`, enabled: false};
-  }
-
-  function pad(n, width, z = "0")
-  {
-    n = n + '';
-    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+    return {label: this.toString(), enabled: false};
   }
 }
 
