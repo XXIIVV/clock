@@ -12,12 +12,28 @@ app.on('ready', () => {
 
   app.dock.hide()
   app.status = "idle";
+  this.decimal = true;
 
   this.tray = new Tray(image)
+
+  this.tray.on('right-click', () => { this.toggle_format(); this.update(); });
 
   reminder.add("stand",45)
   reminder.add("drink",30)
   reminder.add("rest",15)
+
+  this.toggle_format = function()
+  {
+    console.log("Toggle format");
+    this.decimal = this.decimal ? false : true;
+  }
+
+  this.update = function()
+  {
+    this.update_menu(); 
+    this.update_title(); 
+    this.update_status();
+  }
 
   this.update_menu = function()
   {
@@ -25,31 +41,39 @@ app.on('ready', () => {
     this.tray.setContextMenu(menu)
   }
 
-  var prev_beat = null
+  var prev_title = null
 
   this.update_title = function(pulse)
   {
     var time = clock.format()
     var event = reminder.any()
+    var new_title = time.beat;
 
     // Kill timer
     if(pomodoro.is_expired()){
       pomodoro.stop();
     }
 
-    if(pomodoro.target){
-      this.tray.setTitle(`-${pomodoro}`)
+    if(!this.decimal){
+      var t = new Date();
+      new_title = `${t.getHours()}:${t.getMinutes()}`
+    }
+    else if(pomodoro.target){
+      new_title = `-${pomodoro}`
     }
     else if(event || clock.show_pulse){
-      this.tray.setTitle(`${time.beat}:${time.pulse}${event ? "("+event+")" : ""}`)
+      new_title = `${time.beat}:${time.pulse}${event ? "("+event+")" : ""}`
     }
-    else if(prev_beat != time.beat || !pulse){
-      this.tray.setTitle(time.beat)
+    else {
+      new_title = time.beat;
+    }
+
+    if(prev_title != new_title){
+      prev_title = new_title;
+      this.tray.setTitle(new_title)
     }
 
     this.update_status();
-    
-    prev_beat = time.beat
   }
 
   this.update_status = function()
