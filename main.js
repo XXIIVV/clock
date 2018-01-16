@@ -1,7 +1,7 @@
 const {app, Menu, Tray} = require('electron')
 const nativeImage = require('electron').nativeImage
-let image = nativeImage.createFromPath(app.getAppPath()+'/icon.png') 
-    image = image.resize({width:24,height:24})
+let image = nativeImage.createFromPath(app.getAppPath()+'/status.event.png') 
+    image = image.resize({width:20,height:20})
 
 let clock     = require('./sources/clock')
 let pomodoro  = require('./sources/pomodoro')
@@ -11,6 +11,7 @@ let calendar  = require('./sources/calendar')
 app.on('ready', () => {
 
   app.dock.hide()
+  app.status = "idle";
 
   this.tray = new Tray(image)
 
@@ -45,8 +46,33 @@ app.on('ready', () => {
     else if(prev_beat != time.beat || !pulse){
       this.tray.setTitle(time.beat)
     }
+
+    this.update_status();
     
     prev_beat = time.beat
+  }
+
+  this.update_status = function()
+  {
+    var new_status = this.status;
+
+    if(pomodoro.target){
+      new_status = "pomodoro";
+    }
+    else if(reminder.any()){
+      new_status = "event";
+    }
+    else{
+      new_status = "idle";
+    }
+
+    if(new_status != this.status){
+      console.log("Status change:",new_status)
+      this.status = new_status;
+      let image = nativeImage.createFromPath(app.getAppPath()+`/status.${this.status}.png`) 
+      image = image.resize({width:20,height:20})
+      this.tray.setImage(image);
+    }
   }
 
   setInterval(() => { this.update_title() },86.40)
