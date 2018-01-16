@@ -16,7 +16,7 @@ app.on('ready', () => {
 
   image = image.resize({width:24,height:24})
 
-  function toggle_pomodoro(beats = 1)
+  function toggle_pomodoro(beats = 30)
   {
     var minutes = (beats * 86.4)/100; 
     console.log(`${beats} beats - ${minutes} minutes`)
