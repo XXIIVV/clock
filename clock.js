@@ -25,7 +25,7 @@ function Clock()
     var offset_sec = target - new Date();
     var minutes = offset_sec/60000;
     var beats = (minutes * (1/86.4))*100;
-    return (beats).toFixed(3).toString().replace(".",":");
+    return (beats);
   }
 
   this.content = function()

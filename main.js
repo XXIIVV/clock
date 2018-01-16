@@ -16,7 +16,7 @@ app.on('ready', () => {
 
   image = image.resize({width:24,height:24})
 
-  function toggle_pomodoro(beats = 30)
+  function toggle_pomodoro(beats = 1)
   {
     var minutes = (beats * 86.4)/100; 
     console.log(`${beats} beats - ${minutes} minutes`)
@@ -51,8 +51,14 @@ app.on('ready', () => {
     var beat = time.substr(0,3);
     var event = clock.has_reminder();
 
+    // Kill timer
+    if(pomodoro && clock.time_left(pomodoro) < 0){
+      pomodoro = null;
+      update_menu();
+    }
+
     if(pomodoro){
-      tray.setTitle(`-${clock.time_left(pomodoro)}`);
+      tray.setTitle(`-${clock.time_left(pomodoro).toFixed(3).toString().replace(".",":")}`);
     }
     else if(event || show_pulse){
       tray.setTitle(`${time}${event ? "("+event+")" : ""}`);
