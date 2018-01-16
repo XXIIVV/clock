@@ -4,18 +4,14 @@ Clock is a small widget displaying [decimal time](http://wiki.xxiivv.com/desambe
 
 ## Beats
 
-The clock has **6 digits**, where their overall value is a ratio over the completion of the day. For example, Noon is 500, 6AM is 250 and 6PM is 750. In the 000:000 format, the shortest pulse equals to 8.64 milliseconds, the second shortest 86.4 and so on. 
+The clock has **two sets of 3 digits**, called the `beat` and the `pulse`. For example, **Noon** is `500:000`, **6AM** is `250:000` and **6PM** is `750:000`. In the decimal format, the shortest pulse equals to **8.64 milliseconds**, the second shortest **86.4** and so on. 
 
-Each break **lasts 1 beat**, or 1000 pulses, and is equivalent to 86.4 seconds(about 1m44s).
+`1 beat(1000 pulses)`, and is equivalent to **86.4 seconds**(about 1m44s). This app includes a [Pomodoro timer](https://en.wikipedia.org/wiki/Pomodoro_Technique) to do a singular focused work lasting `30 beats`, or **25.92 minutes**.
 
 ```
 1 beat = 86.4 seconds
 1 second = 1.157 beats
 ```
-
-## Pomodoro
-
-There is a `Start Pomodoro` timer to do a singular focused work lasting 30 beats, or 25.92 minutes.
 
 ## Preview
 
