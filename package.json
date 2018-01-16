@@ -4,6 +4,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "time":"node time.js",
     "clean"        : "rm -r ~/Desktop/Clock-darwin-x64/ ; rm -r ~/Desktop/Clock-linux-x64/ ; rm -r ~/Desktop/Clock-win32-x64/ ; echo 'cleaned build location'",
     "build_osx"    : "electron-packager . Clock --platform=darwin --arch=x64 --out ~/Desktop/ --overwrite --icon=icon.icns ; echo 'Built for OSX'",
     "build_linux"  : "electron-packager . Clock --platform=linux  --arch=x64 --out ~/Desktop/ --overwrite --icon=icon.ico ; echo 'Built for LINUX'",

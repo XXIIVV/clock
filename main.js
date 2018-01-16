@@ -11,23 +11,9 @@ app.on('ready', () => {
   clock.add_reminder("drink",30);
   clock.add_reminder("rest",15);
 
-  var pomodoro = null;
   var show_pulse = false;
 
   image = image.resize({width:24,height:24})
-
-  function toggle_pomodoro(beats = 30)
-  {
-    var minutes = (beats * 86.4)/100; 
-    console.log(`${beats} beats - ${minutes} minutes`)
-    if(!pomodoro){
-      pomodoro = new Date(new Date().getTime() + (minutes*60000));
-    }
-    else{
-      pomodoro = null;
-    }
-    update_menu();
-  }
 
   function toggle_format()
   {
@@ -39,7 +25,7 @@ app.on('ready', () => {
   {
     var menu = Menu.buildFromTemplate([
       {label: '000:000', type: 'checkbox', checked: show_pulse, click:() => { toggle_format(); } },
-      {label: pomodoro ? 'Stop Pomodoro' : 'Start Pomodoro', click:() => { toggle_pomodoro(); } },
+      {label: clock.pomodoro.target ? 'Stop Pomodoro' : 'Start Pomodoro', click:() => { clock.pomodoro.toggle(); update_menu(); } },
       {label: 'Quit', click:() => { app.quit() }}
     ])
     tray.setContextMenu(menu)
@@ -52,13 +38,12 @@ app.on('ready', () => {
     var event = clock.has_reminder();
 
     // Kill timer
-    if(pomodoro && clock.time_left(pomodoro) < 0){
-      pomodoro = null;
+    if(clock.pomodoro.target && clock.pomodoro.offset() < 0){
       update_menu();
     }
 
-    if(pomodoro){
-      tray.setTitle(`-${clock.time_left(pomodoro).toFixed(3).toString().replace(".",":")}`);
+    if(clock.pomodoro.target){
+      tray.setTitle(`-${clock.pomodoro}`);
     }
     else if(event || show_pulse){
       tray.setTitle(`${time}${event ? "("+event+")" : ""}`);
