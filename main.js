@@ -7,9 +7,9 @@ app.on('ready', () => {
 
   app.dock.hide();
 
-  clock.add_reminder("stand",45);
-  clock.add_reminder("drink",30);
-  clock.add_reminder("rest",15);
+  clock.reminder.add("stand",45);
+  clock.reminder.add("drink",30);
+  clock.reminder.add("rest",15);
 
   var show_pulse = false;
 
@@ -35,7 +35,7 @@ app.on('ready', () => {
   {
     var time = clock.format();
     var beat = time.substr(0,3);
-    var event = clock.has_reminder();
+    var event = clock.reminder.any();
 
     // Kill timer
     if(clock.pomodoro.target && clock.pomodoro.offset() < 0){

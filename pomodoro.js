@@ -1,6 +1,5 @@
 function Pomodoro()
 {
-  this.clock = null;
   this.target = null;
 
   this.start = function(beats = 30)
