@@ -14,7 +14,7 @@ function Calendar()
   this.toString = function()
   {
     var d = this.day;
-    var m = String.fromCharCode(97 + this.month).toUpperCase();
+    var m = String.fromCharCode(98 + this.month).toUpperCase();
     var y = this.date.getFullYear().toString().substr(2,2);
     return `${y}${m}${d}`;
   }
