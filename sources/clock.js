@@ -19,7 +19,7 @@ function Clock()
   {
     var t        = this.time();
     var t_s      = new String(t);
-    return {beat:t_s.substr(0,3),pulse:t_s.substr(3,3)};
+    return {beat:t_s.substr(0,(t_s.length-3)),pulse:t_s.substr(-3)};
   }
 
   this.toString = function()
