@@ -56,7 +56,7 @@ app.on('ready', () => {
 
     if(!this.decimal){
       var t = new Date();
-      new_title = `${t.getHours()}:${t.getMinutes()}`
+      new_title = `${pad(t.getHours(),2)}:${pad(t.getMinutes(),2)}`
     }
     else if(pomodoro.target){
       new_title = `-${pomodoro}`
@@ -97,6 +97,12 @@ app.on('ready', () => {
       image = image.resize({width:20,height:20})
       this.tray.setImage(image);
     }
+  }
+
+  function pad(n, width, z = "0")
+  {
+    n = n + '';
+    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
   }
 
   setInterval(() => { this.update_title() },86.40)
