@@ -52,6 +52,7 @@ app.on('ready', () => {
     // Kill timer
     if(pomodoro.is_expired()){
       pomodoro.stop();
+      this.update_menu();
     }
 
     if(!this.decimal){
