@@ -11,7 +11,6 @@ function Reminder()
   {
     for(id in this.scheduled){
       var rate = this.scheduled[id];
-      console.log(beat,rate)
       if(beat % rate == 0){
         return id;
       }
