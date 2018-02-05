@@ -45,8 +45,9 @@ app.on('ready', () => {
 
   this.update_title = function(pulse)
   {
+    var new_status = this.status;
     var time = clock.format()
-    var event = reminder.any()
+    var event = reminder.any(clock.format().beat)
     var new_title = time.beat;
 
     // Kill timer
@@ -61,12 +62,19 @@ app.on('ready', () => {
     }
     else if(pomodoro.target){
       new_title = `-${pomodoro}`
+      new_status = "pomodoro";
     }
-    else if(event || clock.show_pulse){
+    else if(event){
       new_title = `${time.beat}:${time.pulse}${event ? "("+event+")" : ""}`
+      new_status = "event";
+    }
+    else if(clock.show_pulse){
+      new_title = `${time.beat}:${time.pulse}`
+      new_status = "idle";
     }
     else {
       new_title = time.beat;
+      new_status = "idle";
     }
 
     if(prev_title != new_title){
@@ -74,23 +82,11 @@ app.on('ready', () => {
       this.tray.setTitle(new_title)
     }
 
-    this.update_status();
+    this.update_status(new_status);
   }
 
-  this.update_status = function()
+  this.update_status = function(new_status)
   {
-    var new_status = this.status;
-
-    if(pomodoro.target){
-      new_status = "pomodoro";
-    }
-    else if(reminder.any()){
-      new_status = "event";
-    }
-    else{
-      new_status = "idle";
-    }
-
     if(new_status != this.status){
       console.log("Status change:",new_status)
       this.status = new_status;

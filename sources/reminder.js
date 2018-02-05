@@ -7,11 +7,12 @@ function Reminder()
     this.scheduled[name] = rate;
   }
 
-  this.any = function()
+  this.any = function(beat)
   {
-    for(id in this.reminders){
-      var rate = this.reminders[id];
-      if(clock.content().beat % rate == 0){
+    for(id in this.scheduled){
+      var rate = this.scheduled[id];
+      console.log(beat,rate)
+      if(beat % rate == 0){
         return id;
       }
     }
