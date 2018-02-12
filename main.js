@@ -59,6 +59,7 @@ app.on('ready', () => {
     if(!this.decimal){
       var t = new Date();
       new_title = `${pad(t.getHours(),2)}:${pad(t.getMinutes(),2)}`
+      new_status = "idle";
     }
     else if(pomodoro.target){
       new_title = `-${pomodoro}`
@@ -90,7 +91,7 @@ app.on('ready', () => {
     if(new_status != this.status){
       console.log("Status change:",new_status)
       this.status = new_status;
-      let image = nativeImage.createFromPath(app.getAppPath()+`/status.${this.status}.png`) 
+      let image = nativeImage.createFromPath(app.getAppPath()+`/status.${this.status ? this.status : "idle"}.png`) 
       image = image.resize({width:20,height:20})
       this.tray.setImage(image);
     }
