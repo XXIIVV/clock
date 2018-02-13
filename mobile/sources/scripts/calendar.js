@@ -22,7 +22,6 @@ Date.prototype.desamber = function()
 
 function Calendar()
 {
-
   this.toString = function()
   {
     return new Date().desamber().toString();
@@ -33,5 +32,3 @@ function Calendar()
     return {label: this.toString(), enabled: false};
   }
 }
-
-module.exports = new Calendar()
