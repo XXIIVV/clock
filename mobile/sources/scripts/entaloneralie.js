@@ -2,9 +2,11 @@ function Entaloneralie()
 {
   this.clock = new Clock();
 
-  this.el = document.createElement("yu");
-
-  this.size = {width:400,height:400};
+  this.el = document.createElement("canvas"); 
+  this.size = {width:window.innerWidth,height:window.innerHeight};
+  this.el.id = "ental";
+  this.el.width = this.size.width * 2;
+  this.el.height = this.size.height * 2;
 
   this.start = function()
   {
@@ -27,31 +29,19 @@ function Entaloneralie()
     var t        = this.time();
     var t_s      = new String(t);
     var t_a      = [t_s.substr(0,3),t_s.substr(3,3)];
-    var w        = this.size.width;
-    var h        = this.size.height;
-    var needle_1 = (((t/1000000) % 1) * h);
-    var needle_2 = (((t/100000) % 1) * w);
-    var needle_3 = needle_1 + (((t/10000) % 1) * (h - needle_1));
-    var needle_4 = needle_2 + (((t/10000) % 1) * (w - needle_2));
-    var needle_5 = needle_3 + (((t/1000) % 1) * (h - needle_3));
-    var needle_6 = needle_4 + (((t/100) % 1) * (w - needle_4));
+    var w        = this.size.width * 2;
+    var h        = this.size.height * 2;
+    var pad      = 60;
+    var needle_1 = parseInt(((t/1000000) % 1) * (h - (pad*2))) + pad;
+    var needle_2 = parseInt(((t/100000) % 1) * (w - (pad*2))) + pad;
+    var needle_3 = needle_1 + parseInt(((t/10000) % 1) * ((h - (pad*2)) - needle_1)) + pad;
+    var needle_4 = needle_2 + parseInt(((t/10000) % 1) * ((w - (pad*2)) - needle_2)) + pad;
+    var needle_5 = needle_3 + parseInt(((t/1000) % 1) * ((h - (pad*2)) - needle_3)) + pad;
+    var needle_6 = needle_4 + parseInt(((t/100) % 1) * ((w - (pad*2)) - needle_4)) + pad;
 
-    var path = "";
-    // path += "M"+needle_1+","+0+" L"+needle_1+","+h+" ";
-    // path += "M"+needle_1+","+needle_2+" L"+w+","+needle_2+" ";
-    // path += "M"+needle_3+","+needle_2+" L"+needle_3+","+h+" ";
+    var path = `M${pad},${needle_1} L${w-pad},${needle_1} M${needle_2},${needle_1} L${needle_2},${h-pad} M${needle_2},${needle_3} L${w-pad},${needle_3} M${needle_4},${needle_3} L${needle_4},${h-pad} M${needle_4},${needle_5} L${w-pad},${needle_5} M${needle_6},${needle_5} L${needle_6},${h-pad} `;
 
-    // path += "M"+needle_3+","+needle_4+" L"+w+","+needle_4+" ";
-    // path += "M"+needle_5+","+needle_4+" L"+needle_5+","+h+" ";
-    // path += "M"+needle_5+","+needle_6+" L"+w+","+needle_6+" ";
-
-    path += `
-    M0,${needle_1} L${w},${needle_1} 
-    M${needle_2},${needle_1} L${needle_2},${h} 
-    M${needle_2},${needle_3} L${w},${needle_3} 
-    `;
-
-    return path;
+    return `${path} M${pad},${pad} L${w-pad},${pad} L${w-pad},${h-pad} L${pad},${h-pad} Z`;
   }
 
   this.digits = function()
@@ -60,8 +50,8 @@ function Entaloneralie()
 
     var t        = this.time();
     var t_s      = new String(t);
-    var w        = this.size.width;
-    var h        = this.size.height;
+    var w        = this.size.width * 2;
+    var h        = this.size.height * 2;
     var needle_1 = (((t/1000000) % 1) * h);
     var needle_2 = (((t/100000) % 1) * w);
     var needle_3 = needle_1 + (((t/10000) % 1) * (h - needle_1));
@@ -69,13 +59,55 @@ function Entaloneralie()
     html += `<text x='0' y='${needle_1}'>${t_s.substr(0,1)}</text>`;
     html += `<text x='${needle_2}' y='15'>${t_s.substr(1,1)}</text>`;
     html += `<text x='${w-15}' y='${needle_3}'>${t_s.substr(2,1)}</text>`;
+
+    html += `<text x='${w/2}' y='${h}'>${t_s.substr(0,3)}:${t_s.substr(3,3)}</text>`;
     return html;
+  }
+
+  this.context = function()
+  {
+    return this.el.getContext('2d');
+  }
+
+  this.clear = function()
+  {
+    var ctx = this.context();
+
+    ctx.clearRect(0, 0, this.size.width*2, this.size.height*2);
+  }
+
+  this.draw_digits = function()
+  {
+    var t        = this.time();
+    var t_s      = new String(t);
+    var w        = this.size.width;
+    var h        = this.size.height;
+    var needle_1 = (((t/1000000) % 1) * h);
+    var needle_2 = (((t/100000) % 1) * w);
+    var needle_3 = needle_1 + (((t/10000) % 1) * (h - needle_1));
+
+    var ctx = this.context();
+    ctx.font         = '20px input_mono_regular';
+    ctx.fillStyle = 'white';
+    ctx.textBaseline = 'top';
+    ctx.fillText  (t_s.substr(0,1), 0, needle_1*2);
+    ctx.fillText  (t_s.substr(1,1), needle_2*2, 0);
+    ctx.fillText  (t_s.substr(2,1), (w*2)-20, needle_3*2);
   }
 
   this.update = function()
   {
+    this.clear();
+
     var w = this.size.width;
     var h = this.size.height;
-    this.el.innerHTML = `<svg id='ental' width="${w}" height="${h}"><path d="${this.path()}"></path>${this.digits()}</svg>`;
+
+    var ctx = this.context();
+    var p = new Path2D(this.path());
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1.5;
+    ctx.stroke(p);
+
+    this.draw_digits();
   }
 }

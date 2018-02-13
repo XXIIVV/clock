@@ -7,7 +7,7 @@
 ::selection { background: #eee; opacity:1.0; color:#000; padding:10px; /* Safari */ }
 hr { clear:both; }
 
-body { background:black; padding:30px; }
-#ental { fill:none; stroke-width:1; stroke-linecap:butt; overflow: hidden; border:1px solid white;  }
+body { background:black; overflow: hidden;}
+#ental { width:100vw; height:100vh; }
 #ental path { fill:none; stroke:white; }
 #ental text { fill:red; }
