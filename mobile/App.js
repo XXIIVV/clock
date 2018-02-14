@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, WebView } from 'react-native';
+import { StyleSheet, Text, View, WebView, StatusBar } from 'react-native';
 
 export default class App extends React.Component {
   render() {
     // Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.LANDSCAPE_RIGHT);
+    StatusBar.setHidden(true);
     return (
      <View style={{flex: 1}}>
         <WebView

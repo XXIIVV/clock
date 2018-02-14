@@ -9,6 +9,8 @@ function Entaloneralie()
   this.el.width = this.size.width * this.size.ratio;
   this.el.height = this.size.height * this.size.ratio;
 
+  this.style = {padding:60,font_size:20,stroke_width:1.5};
+
   this.start = function()
   {
     document.body.appendChild(this.el);
@@ -33,12 +35,12 @@ function Entaloneralie()
     var t_s      = new String(t);
     var w        = this.size.width * this.size.ratio;
     var h        = this.size.height * this.size.ratio;
-    var pad      = 120;
+    var pad      = this.style.padding;
     var needle_1 = parseInt(((t/1000000) % 1) * (h - (pad*2))) + pad;
     var needle_2 = parseInt(((t/100000) % 1) * (w - (pad*2))) + pad;
     var needle_3 = needle_1 + parseInt(((t/10000) % 1) * (h - pad - needle_1));
 
-    var font_size    = 40;
+    var font_size    = this.style.font_size;
     var ctx          = this.context();
     ctx.font         = `${font_size}px input_mono_regular`;
     ctx.fillStyle    = 'white';
@@ -51,9 +53,6 @@ function Entaloneralie()
     ctx.fillText(t_s.substr(2,1), w-(pad*0.75), needle_3-(font_size/2));
     ctx.textAlign    = "center"; 
     ctx.fillText(`${this.calendar} ${this.clock}`, w/2, h-(pad*0.75));
-
-    ctx.textAlign    = "left"; 
-    ctx.fillText(`${w} x ${h}`, 100,100);
   }
 
   this.draw_path = function()
@@ -64,7 +63,7 @@ function Entaloneralie()
     var ctx = this.context();
     var p = new Path2D(this.path());
     ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 3.5;
+    ctx.lineWidth = this.style.stroke_width;
     ctx.stroke(p);
   }
 
@@ -74,7 +73,7 @@ function Entaloneralie()
     var t_s      = new String(t);
     var w        = this.size.width * this.size.ratio;
     var h        = this.size.height * this.size.ratio;
-    var pad      = 120;
+    var pad      = this.style.padding;
     var needle_1 = parseInt(((t/1000000) % 1) * (h - (pad*2))) + pad;
     var needle_2 = parseInt(((t/100000) % 1) * (w - (pad*2))) + pad;
     var needle_3 = needle_1 + parseInt(((t/10000) % 1) * (h - pad - needle_1));
@@ -87,8 +86,19 @@ function Entaloneralie()
 
   this.update = function()
   {
+    entaloneralie.size = {width:window.innerWidth,height:window.innerHeight,ratio:2};
+    this.el.width = this.size.width * this.size.ratio;
+    this.el.height = this.size.height * this.size.ratio;
+    
     this.clear();
     this.draw_path();
     this.draw_digits();
   }
+
+  window.onresize = function(event)
+  {
+    entaloneralie.size = {width:window.innerWidth,height:window.innerHeight,ratio:2};
+    entaloneralie.update();
+  };
+
 }
