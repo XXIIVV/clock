@@ -9,7 +9,7 @@ function Entaloneralie()
   this.el.width = this.size.width * this.size.ratio;
   this.el.height = this.size.height * this.size.ratio;
 
-  this.style = {padding:60,font_size:20,stroke_width:1.5};
+  this.style = {padding:100,font_size:20,stroke_width:1.5};
 
   this.start = function()
   {
@@ -48,7 +48,7 @@ function Entaloneralie()
     ctx.textAlign    = "right"; 
     ctx.fillText(t_s.substr(0,1), pad*0.75, needle_1-(font_size/2));
     ctx.textAlign    = "center"; 
-    ctx.fillText(t_s.substr(1,1), needle_2, (pad/2)-(font_size/2));
+    ctx.fillText(t_s.substr(1,1), needle_2, (pad/2)+(font_size*0.25));
     ctx.textAlign    = "left"; 
     ctx.fillText(t_s.substr(2,1), w-(pad*0.75), needle_3-(font_size/2));
     ctx.textAlign    = "center"; 
