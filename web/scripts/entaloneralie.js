@@ -61,13 +61,16 @@ function Entaloneralie()
     var h = this.size.height;
 
     var ctx = this.context();
-    var p = new Path2D(this.path());
     ctx.strokeStyle = '#fff';
     ctx.lineWidth = this.style.stroke_width;
-    ctx.stroke(p);
+    ctx.stroke(new Path2D(this.path()));
+
+    ctx.beginPath();
+    ctx.setLineDash([2, 10]);
+    ctx.stroke(new Path2D(this.path(true)));
   }
 
-  this.path = function()
+  this.path = function(second_needle = false)
   {
     var t        = this.clock.time();
     var t_s      = new String(t);
@@ -81,7 +84,7 @@ function Entaloneralie()
     var needle_5 = needle_3 + parseInt(((t/100) % 1) * (h - pad - needle_3));
     var needle_6 = needle_4 + parseInt(((t/10) % 1) * (w - pad - needle_4));
     var path = `M${pad},${needle_1} L${w-pad},${needle_1} M${needle_2},${needle_1} L${needle_2},${h-pad} M${needle_2},${needle_3} L${w-pad},${needle_3} M${needle_4},${needle_3} L${needle_4},${h-pad} M${needle_4},${needle_5} L${w-pad},${needle_5} M${needle_6},${needle_5} L${needle_6},${h-pad} `;
-    return `${path} M${pad},${pad} L${w-pad},${pad} L${w-pad},${h-pad} L${pad},${h-pad} Z`;
+    return second_needle ? `M${needle_2},${pad} L ${needle_2},${needle_1}` : `${path} M${pad},${pad} L${w-pad},${pad} L${w-pad},${h-pad} L${pad},${h-pad} Z`;
   }
 
   this.update = function()
