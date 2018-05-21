@@ -11,9 +11,9 @@ function Clock()
   {
     var d = new Date(), e = new Date(d);
     var msSinceMidnight = e - d.setHours(0,0,0,0);
-    var val = (msSinceMidnight/864) * 10;
-    var format = val.toFixed(3).padStart(7,"0").replace(".","").substr(0,6)
-    return val;
+    var val = msSinceMidnight / 8640 / 10000;
+    var format = val.toFixed(6).substr(2,6);
+    return format;
   }
 
   this.format = function()
