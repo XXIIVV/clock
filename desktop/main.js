@@ -1,6 +1,6 @@
 const {app, Menu, Tray} = require('electron')
 const nativeImage = require('electron').nativeImage
-let image = nativeImage.createFromPath(app.getAppPath()+'/status.event.png') 
+let image = nativeImage.createFromPath(app.getAppPath()+'/status.event.png')
     image = image.resize({width:20,height:20})
 
 let clock     = require('./sources/clock')
@@ -8,15 +8,21 @@ let pomodoro  = require('./sources/pomodoro')
 let reminder  = require('./sources/reminder')
 let calendar  = require('./sources/calendar')
 
+const macos = process.platform == "darwin"
+
 app.on('ready', () => {
 
-  app.dock.hide()
+  if(macos){
+    app.dock.hide()
+  }
+
   app.status = "idle";
   this.decimal = true;
 
   this.tray = new Tray(image)
 
-  this.tray.on('right-click', () => { this.toggle_format(); this.update(); });
+  this.format_button = macos ? 'right-click' : 'click';
+  this.tray.on(this.format_button, () => { this.toggle_format(); this.update(); });
 
   reminder.add("stand",45)
   reminder.add("drink",30)
@@ -30,8 +36,8 @@ app.on('ready', () => {
 
   this.update = function()
   {
-    this.update_menu(); 
-    this.update_title(); 
+    this.update_menu();
+    this.update_title();
     this.update_status();
   }
 
@@ -80,7 +86,13 @@ app.on('ready', () => {
 
     if(prev_title != new_title){
       prev_title = new_title;
-      this.tray.setTitle(new_title)
+
+      if(macos){
+        this.tray.setTitle(new_title)
+      }
+      else {
+        this.tray.setToolTip(new_title)
+      }
     }
 
     this.update_status(new_status);
@@ -91,7 +103,7 @@ app.on('ready', () => {
     if(new_status != this.status){
       console.log("Status change:",new_status)
       this.status = new_status;
-      let image = nativeImage.createFromPath(app.getAppPath()+`/status.${this.status ? this.status : "idle"}.png`) 
+      let image = nativeImage.createFromPath(app.getAppPath()+`/status.${this.status ? this.status : "idle"}.png`)
       image = image.resize({width:20,height:20})
       this.tray.setImage(image);
     }
