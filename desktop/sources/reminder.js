@@ -1,6 +1,7 @@
 function Reminder()
 {
   this.scheduled = {};
+  this.mute = false;
 
   this.add = function(name,rate)
   {
@@ -16,6 +17,16 @@ function Reminder()
       }
     }
     return false;
+  }
+
+  this.toggle_mute = function()
+  {
+    this.mute = this.mute ? false : true;
+  }
+
+  this.menu = function(app)
+  {
+    return {label: 'Mute Reminders', type: 'checkbox', checked: this.mute, click:() => { this.toggle_mute(); app.update_menu(); } };
   }
 }
 

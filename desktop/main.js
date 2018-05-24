@@ -1,4 +1,5 @@
 const {app, Menu, Tray} = require('electron')
+const notifier = require('node-notifier')
 const nativeImage = require('electron').nativeImage
 let image = nativeImage.createFromPath(app.getAppPath()+'/status.event.png')
     image = image.resize({width:20,height:20})
@@ -27,6 +28,7 @@ app.on('ready', () => {
   reminder.add("stand",45)
   reminder.add("drink",30)
   reminder.add("rest",15)
+  reminder.add("test",2)
 
   this.toggle_format = function()
   {
@@ -43,7 +45,20 @@ app.on('ready', () => {
 
   this.update_menu = function()
   {
-    var menu = Menu.buildFromTemplate([clock.menu(this),pomodoro.menu(this),calendar.menu(this),{label: 'Quit', click:() => { app.quit() }}])
+    var menu = Menu.buildFromTemplate([
+      calendar.menu(this),
+      {type: "separator"},
+      pomodoro.menu(this),
+      {type: "separator"},
+      clock.menu(this),
+      reminder.menu(this),
+      {type: "separator"},
+      {
+        label: 'Quit',
+        click: () => { app.quit() }
+      }
+    ]);
+
     this.tray.setContextMenu(menu)
   }
 
@@ -95,17 +110,28 @@ app.on('ready', () => {
       }
     }
 
-    this.update_status(new_status);
+    this.update_status(new_status, event);
   }
 
-  this.update_status = function(new_status)
+  this.update_status = function(new_status, event)
   {
     if(new_status != this.status){
-      console.log("Status change:",new_status)
+      console.log("Status change:", new_status);
       this.status = new_status;
-      let image = nativeImage.createFromPath(app.getAppPath()+`/status.${this.status ? this.status : "idle"}.png`)
-      image = image.resize({width:20,height:20})
+      let imagePath = app.getAppPath()+`/status.${this.status ? this.status : "idle"}.png`;
+      let image = nativeImage.createFromPath(imagePath);
+      image = image.resize({width:20, height:20});
       this.tray.setImage(image);
+
+      if(event && !reminder.mute){
+        notifier.notify({
+          title: 'Clock',
+          message: event,
+          icon: imagePath,
+          sound: true,
+          wait: true
+        });
+      }
     }
   }
 
