@@ -28,7 +28,6 @@ app.on('ready', () => {
   reminder.add("stand",45)
   reminder.add("drink",30)
   reminder.add("rest",15)
-  reminder.add("test",2)
 
   this.toggle_format = function()
   {
