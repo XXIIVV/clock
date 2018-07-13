@@ -10,11 +10,17 @@ function Entaloneralie()
   this.el.height = this.size.height * this.size.ratio;
 
   this.style = {padding:100,font_size:20,stroke_width:1.5};
+  this.fps = 60;
 
   this.start = function()
   {
     document.body.appendChild(this.el);
-    setInterval(() => { this.update(); },17);
+    this.animate()
+  }
+
+  this.animate = function()
+  {
+    setTimeout(() => { entaloneralie.update(); requestAnimationFrame(entaloneralie.animate); }, 1000/entaloneralie.fps);
   }
 
   this.context = function()
