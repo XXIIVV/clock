@@ -9,15 +9,15 @@ function desamber(date = new Date)
   const y = date.getFullYear().toString().substr(2,2)
   const m = doty == 365 || doty == 366 ? "+" : String.fromCharCode(97 + l).toUpperCase()
   const d = `${(doty == 365 ? 1 : doty == 366 ? 2 : (doty % 14))+1}`.padStart(2,"0")
-  return `${y}${m}${d}`;
+  return `${y}${m}${d}`
 }
 
-function neralie()
+function neralie(date = new Date())
 {
-  const d = new Date()
-  const e = new Date(d)
-  const t = (e - d.setHours(0, 0, 0, 0) / 8640) * 100
-  return `${t}`.substr(0, 3) + ':' + `${t}`.substr(3, 3)
+  const e = new Date(date)
+  const ms = e - date.setHours(0,0,0,0)
+  const val = (ms/8640/10000).toFixed(6)
+  return `${val.substr(2,3)}:${val.substr(5,3)}`
 }
 
 console.log(`${neralie()} — ${desamber()}`)
