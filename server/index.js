@@ -20,4 +20,4 @@ function neralie(date = new Date())
   return `${val.substr(2,3)}:${val.substr(5,3)}`
 }
 
-console.log(`${neralie()} — ${desamber()}`)
+console.log(`${desamber()} — ${neralie()}`)
