@@ -1,6 +1,6 @@
 function Entaloneralie () {
-  this.clock = new Clock()
   this.arvelie = new Arvelie()
+  this.neralie = new Neralie()
 
   this.el = document.createElement('canvas')
   this.size = { width: window.innerWidth, height: window.innerHeight, ratio: 2 }
@@ -31,7 +31,7 @@ function Entaloneralie () {
   }
 
   this.draw_digits = function () {
-    var t = this.clock.time()
+    var t = this.neralie.toInteger()
     var t_s = new String(t)
     var w = this.size.width * this.size.ratio
     var h = this.size.height * this.size.ratio
@@ -52,7 +52,7 @@ function Entaloneralie () {
     ctx.textAlign = 'left'
     ctx.fillText(t_s.substr(2, 1), w - (pad * 0.75), needle_3 - (font_size / 2))
     ctx.textAlign = 'center'
-    ctx.fillText(`${this.arvelie} ${this.clock}`, w / 2, h - (pad * 0.75))
+    ctx.fillText(`${this.arvelie} ${this.neralie}`, w / 2, h - (pad * 0.75))
   }
 
   this.draw_path = function () {
@@ -70,7 +70,7 @@ function Entaloneralie () {
   }
 
   this.path = function (second_needle = false) {
-    var t = this.clock.time()
+    var t = this.neralie.toInteger()
     var t_s = new String(t)
     var w = this.size.width * this.size.ratio
     var h = this.size.height * this.size.ratio
