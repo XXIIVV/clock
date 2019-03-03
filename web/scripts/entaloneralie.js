@@ -3,12 +3,11 @@ function Entaloneralie () {
   this.neralie = new Neralie()
 
   this.el = document.createElement('canvas')
-  this.size = { width: window.innerWidth, height: window.innerHeight, ratio: 2 }
   this.el.id = 'ental'
-  this.el.width = this.size.width * this.size.ratio
-  this.el.height = this.size.height * this.size.ratio
 
-  this.style = { padding: 100, font_size: 20, stroke_width: 1.5 }
+  this.scale = window.devicePixelRatio
+  this.size = { width: window.innerWidth, height: window.innerHeight }
+  this.style = { padding: 35 * this.scale, font_size: 10 * this.scale, stroke_width: 1.5 }
   this.fps = 60
 
   this.start = function () {
@@ -25,55 +24,46 @@ function Entaloneralie () {
   }
 
   this.clear = function () {
-    var ctx = this.context()
-
-    ctx.clearRect(0, 0, this.size.width * this.size.ratio, this.size.height * this.size.ratio)
+    this.context().clearRect(0, 0, this.size.width * this.scale, this.size.height * this.scale)
   }
 
-  this.draw_digits = function () {
+  this.drawDigits = function () {
     var t = this.neralie.toInteger()
-    var t_s = new String(t)
-    var w = this.size.width * this.size.ratio
-    var h = this.size.height * this.size.ratio
+    var w = this.size.width * this.scale
+    var h = this.size.height * this.scale
     var pad = this.style.padding
     var needle_1 = parseInt(((t / 1000000) % 1) * (h - (pad * 2))) + pad
     var needle_2 = parseInt(((t / 100000) % 1) * (w - (pad * 2))) + pad
     var needle_3 = needle_1 + parseInt(((t / 10000) % 1) * (h - pad - needle_1))
-
     var font_size = this.style.font_size
     var ctx = this.context()
     ctx.font = `${font_size}px input_mono_regular`
     ctx.fillStyle = 'white'
     ctx.textBaseline = 'top'
     ctx.textAlign = 'right'
-    ctx.fillText(t_s.substr(0, 1), pad * 0.75, needle_1 - (font_size / 2))
+    ctx.fillText(`${t}`.substr(0, 1), pad * 0.75, needle_1 - (font_size / 2))
     ctx.textAlign = 'center'
-    ctx.fillText(t_s.substr(1, 1), needle_2, (pad / 2) + (font_size * 0.25))
+    ctx.fillText(`${t}`.substr(1, 1), needle_2, (pad / 2) + (font_size * 0.25))
     ctx.textAlign = 'left'
-    ctx.fillText(t_s.substr(2, 1), w - (pad * 0.75), needle_3 - (font_size / 2))
+    ctx.fillText(`${t}`.substr(2, 1), w - (pad * 0.75), needle_3 - (font_size / 2))
     ctx.textAlign = 'center'
     ctx.fillText(`${this.arvelie} ${this.neralie}`, w / 2, h - (pad * 0.75))
   }
 
-  this.draw_path = function () {
-    var w = this.size.width
-    var h = this.size.height
-
+  this.drawPath = function () {
     var ctx = this.context()
     ctx.strokeStyle = '#fff'
     ctx.lineWidth = this.style.stroke_width
     ctx.stroke(new Path2D(this.path()))
-
     ctx.beginPath()
-    ctx.setLineDash([2, 10])
+    ctx.setLineDash([2, 5 * this.scale])
     ctx.stroke(new Path2D(this.path(true)))
   }
 
   this.path = function (second_needle = false) {
     var t = this.neralie.toInteger()
-    var t_s = new String(t)
-    var w = this.size.width * this.size.ratio
-    var h = this.size.height * this.size.ratio
+    var w = this.size.width * this.scale
+    var h = this.size.height * this.scale
     var pad = this.style.padding
     var needle_1 = parseInt(((t / 1000000) % 1) * (h - (pad * 2))) + pad
     var needle_2 = parseInt(((t / 100000) % 1) * (w - (pad * 2))) + pad
@@ -86,17 +76,16 @@ function Entaloneralie () {
   }
 
   this.update = function () {
-    entaloneralie.size = { width: window.innerWidth, height: window.innerHeight, ratio: 2 }
-    this.el.width = this.size.width * this.size.ratio
-    this.el.height = this.size.height * this.size.ratio
+    this.size = { width: window.innerWidth, height: window.innerHeight }
+    this.el.width = this.size.width * this.scale
+    this.el.height = this.size.height * this.scale
 
     this.clear()
-    this.draw_path()
-    this.draw_digits()
+    this.drawPath()
+    this.drawDigits()
   }
 
-  window.onresize = function (event) {
-    entaloneralie.size = { width: window.innerWidth, height: window.innerHeight, ratio: 2 }
-    entaloneralie.update()
+  window.onresize = (event) => {
+    this.update()
   }
 }
