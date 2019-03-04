@@ -16,3 +16,5 @@ function Neralie (t = neralie) {
     return `${neralie()}`
   }
 }
+
+module.exports = Neralie

@@ -45,3 +45,5 @@ function Arvelie (t = arvelie()) {
     return template ? `<span title='${this.toGregorian()}'>${this.t}</span>` : this.t
   }
 }
+
+module.exports = Arvelie
