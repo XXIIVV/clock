@@ -11,7 +11,7 @@ function arvelie (date = new Date()) {
 }
 
 function Arvelie (t = arvelie()) {
-  this.t = t.match(/\d\d[a-z\+]\d\d/i) ? t.toUpperCase() : '01+01'
+  this.t = t.match(/\d\d[a-z+]\d\d/i) ? t.toUpperCase() : '01+01'
   this.y = t.substr(0, 2)
   this.m = t.substr(2, 1).toUpperCase()
   this.d = t.substr(3, 2)
@@ -32,7 +32,7 @@ function Arvelie (t = arvelie()) {
   this.ago = function (cap = 9999) {
     const days = this.offset
     if (-days > cap) { return `${this.toString(true)}` }
-    if (days === -1) { return `yesterday` }
+    if (days === -1) { return 'yesterday' }
     if (days === 1) { return 'tomorrow' }
     if (days === 0) { return 'today' }
     if (days < -365) { return `${Math.floor(days / -365)} years ago` }
