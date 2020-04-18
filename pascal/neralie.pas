@@ -2,82 +2,80 @@ program Neralie;
 
  const
   pad = 20;
-  x = 60;
-  y = 60;
-  width = 300;
+  width = 400;
   height = 200;
 
  var
   view, display, bounds: Rect;
   dtr: DateTimeRec;
   res, last: longInt;
+  altMap, tempBits: BitMap;
 
-{>> Draw }
- procedure draw (bounds: rect; a, b, c, d, e, f: real);
+ procedure init;
+ begin
+  ShowDrawing;
+  GetDrawingRect(view);
+  SetRect(view, view.left, view.top, view.right, view.bottom);
+  SetDrawingRect(view);
+  SetRect(display, 0, 0, view.right - view.left - 15, view.bottom - view.top - 15);
+  SetRect(bounds, pad, pad, display.right - pad, display.bottom - pad);
+  altMap.rowBytes := (width + 15) div 16 * 2;
+  altMap.bounds := bounds;
+  altMap.baseAddr := NewPtr(altMap.rowBytes * height);
+  PenPat(black);
+  PaintRect(display);
+ end;
+
+ procedure Draw (bounds: rect; a, b, c, d, e, f: real);
   var
-   x, y, prev: integer;
+   x, y: integer;
  begin
   y := pad;
   x := bounds.left;
-{a}
   y := round(a * (bounds.bottom - y) + y);
   drawLine(x, y, bounds.right - 1, y);
-{b}
   x := round(b * (bounds.right - x) + x);
   drawLine(x, y, x, bounds.bottom - 1);
-{c}
   y := round(c * (bounds.bottom - y) + y);
   drawLine(x, y, bounds.right - 1, y);
-{d}
   x := round(d * (bounds.right - x) + x);
   drawLine(x, y, x, bounds.bottom - 1);
-{e}
   y := round(e * (bounds.bottom - y) + y);
   drawLine(x, y, bounds.right - 1, y);
-{f}
   x := round(f * (bounds.right - x) + x);
   drawLine(x, y, x, bounds.bottom - 1);
  end;
 
-{>> toNeralie }
- function toNeralie (dtr: DateTimeRec): LongInt;
+ function toNeralie (dtr: DateTimeRec): Longint;
   var
-   seconds: LongInt;
-   ratio: extended;
+   mins, a: Longint;
  begin
-  seconds := 3600;
-  seconds := seconds * dtr.hour;
-  seconds := seconds + dtr.minute * 60;
-  seconds := seconds + dtr.second;
-  ratio := seconds / 86400;
-  toNeralie := round(ratio * 1000000);
+  mins := Longint(dtr.hour * 60 + dtr.minute) * 100;
+  a := mins mod 144 * 60 * 100 + Longint(dtr.second) * 10000;
+  toNeralie := mins div 144 * 1000 + a div 864;
  end;
 
 begin
 
- ShowDrawing;
-
- setRect(view, x, y, x + width, y + height);
- setDrawingRect(view);
-
- setRect(display, 0, 0, view.right - view.left - 15, view.bottom - view.top - 15);
- setRect(bounds, pad, pad, display.right - pad, display.bottom - pad);
+ init;
 
  while not button do
   begin
-
    GetTime(dtr);
    if dtr.second <> last then
     begin
-     penPat(black);
-     paintRect(display);
-     penPat(white);
-     frameRect(bounds);
+     PenPat(black);
+     tempBits := thePort^.portBits;
+     SetPortBits(altMap);
+     PaintRect(bounds);
+     PenPat(white);
+     FrameRect(bounds);
      res := toNeralie(dtr);
-     writeln(res);
      draw(bounds, res / 1000000, (res mod 100000) / 100000, (res mod 10000) / 10000, (res mod 1000) / 1000, (res mod 100) / 100, (res mod 10) / 10);
+     SetPortBits(tempBits);
+     CopyBits(altMap, thePort^.portBits, bounds, bounds, srcCopy, nil);
     end;
    last := dtr.second;
   end;
-
+ DisposePtr(altMap.baseAddr);
 end.
