@@ -11,7 +11,7 @@ program Neralie;
   res, last: longInt;
   altMap, tempBits: BitMap;
 
- procedure init;
+ procedure Init;
  begin
   ShowDrawing;
   GetDrawingRect(view);
@@ -57,7 +57,7 @@ program Neralie;
 
 begin
 
- init;
+ Init;
 
  while not button do
   begin
@@ -71,7 +71,8 @@ begin
      PenPat(white);
      FrameRect(bounds);
      res := toNeralie(dtr);
-     draw(bounds, res / 1000000, (res mod 100000) / 100000, (res mod 10000) / 10000, (res mod 1000) / 1000, (res mod 100) / 100, (res mod 10) / 10);
+     Writeln(res);
+     Draw(bounds, res / 1000000, (res mod 100000) / 100000, (res mod 10000) / 10000, (res mod 1000) / 1000, (res mod 100) / 100, (res mod 10) / 10);
      SetPortBits(tempBits);
      CopyBits(altMap, thePort^.portBits, bounds, bounds, srcCopy, nil);
     end;
