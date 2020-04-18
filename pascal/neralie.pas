@@ -2,22 +2,28 @@ program Neralie;
 
  const
   pad = 20;
-  width = 400;
-  height = 200;
+  width = 450;
+  height = 350;
 
  var
-  view, display, bounds: Rect;
+  w: WindowPtr; {A window to draw in}
+  r: Rect; {The bounding box of the window}
+  display, bounds: Rect;
   dtr: DateTimeRec;
   res, last: longInt;
   altMap, tempBits: BitMap;
 
- procedure Init;
+ procedure WindowInit;
  begin
-  ShowDrawing;
-  GetDrawingRect(view);
-  SetRect(view, view.left, view.top, view.right, view.bottom);
-  SetDrawingRect(view);
-  SetRect(display, 0, 0, view.right - view.left - 15, view.bottom - view.top - 15);
+  SetRect(r, 150, 125, width, height);
+  w := NewWindow(nil, r, 'Neralie', true, noGrowDocProc, WindowPtr(-1), false, 0);
+  SetPort(w);
+ end;
+
+ procedure Start;
+ begin
+  SetDrawingRect(r);
+  SetRect(display, 0, 0, r.right - r.left, r.bottom - r.top);
   SetRect(bounds, pad, pad, display.right - pad, display.bottom - pad);
   altMap.rowBytes := (width + 15) div 16 * 2;
   altMap.bounds := bounds;
@@ -57,7 +63,8 @@ program Neralie;
 
 begin
 
- Init;
+ WindowInit;
+ Start;
 
  while not button do
   begin
