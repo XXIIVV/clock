@@ -176,6 +176,15 @@ program Neralie;
   CopyBits(altMap, thePort^.portBits, altMap.bounds, r, srcCopy, nil);
  end;
 
+ procedure UpdateTitle;
+  var
+   beat, pulse: Str255;
+ begin
+  NumToString(round(curPulses / 1000) mod 1000, beat);
+  NumToString(round(curPulses) mod 1000, pulse);
+  SetWTitle(clockWindow, concat(beat, ':', pulse));
+ end;
+
  procedure Draw;
   var
    newPulses: Longint;
@@ -193,6 +202,7 @@ program Neralie;
     FrameRect(altMap.bounds);
     DrawNeedles(altMap.bounds, curPulses / 1000000, (curPulses mod 100000) / 100000, (curPulses mod 10000) / 10000, (curPulses mod 1000) / 1000, (curPulses mod 100) / 100, (curPulses mod 10) / 10);
     SetPortBits(tempBits);
+    UpdateTitle;
    end;
   CopyAltBuffer;
  end;
@@ -264,6 +274,7 @@ program Neralie;
   end;
   HiliteMenu(0);
  end;
+
  procedure OnMouseDown (event: EventRecord);
   var
    someWindow: WindowPtr;
@@ -355,13 +366,12 @@ program Neralie;
  end;
 
 begin
-
  MenuBarInit;
  SetRect(r, 150, 125, 150 + defWidth, 125 + defHeight);
  curPulses := -1;
  quitting := False;
  altMap.rowBytes := 0;
- lightMode := True;
+ lightMode := False;
  SetRect(minMaxSizeRect, pad * 3, pad * 3, 5000, 5000);
  SetRect(altMap.bounds, 0, 0, 0, 0);
  altMap.baseAddr := nil;
@@ -376,5 +386,4 @@ begin
   DispatchEvent;
  if altMap.baseAddr <> nil then
   DisposePtr(altMap.baseAddr);
-  
 end.
