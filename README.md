@@ -1,6 +1,6 @@
 # Clock
 
-Clock is a small widget displaying [decimal time](http://wiki.xxiivv.com/desamber) with automatic reminders to stand, drink and [rest your hands](https://en.wikipedia.org/wiki/Repetitive_strain_injury).
+Clock is a small widget displaying [decimal time](http://wiki.xxiivv.com/time) with automatic reminders to stand, drink and [rest your hands](https://en.wikipedia.org/wiki/Repetitive_strain_injury).
 
 ## Beats
 
